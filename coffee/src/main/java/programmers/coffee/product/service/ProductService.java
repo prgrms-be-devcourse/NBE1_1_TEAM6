@@ -62,4 +62,9 @@ public class ProductService {
 			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 제품입니다."));
 		product.deleteProduct();
 	}
+
+    public List<ProductDTO> searchByProductName(String productName) {
+		List<Product> products = productRepository.findByProductNameContaining(productName);
+		return products.stream().map(ProductDTO::from).toList();
+    }
 }
