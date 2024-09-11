@@ -68,8 +68,7 @@ public class Product {
 
 	public void updateProduct(ProductDTO productDTO) {
 		this.productName = productDTO.getProductName();
-		// Enum 타입으로 변경하는 작업 필요
-		// this.category = productDTO.getCategory();
+
 		this.price = productDTO.getPrice();
 		this.description = productDTO.getDescription();
 	}

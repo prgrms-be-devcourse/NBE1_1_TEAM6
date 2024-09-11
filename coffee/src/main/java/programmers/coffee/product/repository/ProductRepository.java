@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import programmers.coffee.product.domain.Product;
 
-public interface ProductRepository extends JpaRepository<Product, UUID> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductNameContaining(String productName);
 
     List<Product> findByPriceBetween(Long minPrice, Long maxPrice);
