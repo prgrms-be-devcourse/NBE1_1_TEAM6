@@ -3,6 +3,7 @@ package programmers.coffee.cart.controller;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,5 +53,14 @@ public class CartController {
         session.setAttribute("cartList",cartList);
 
         return cartList;
+    }
+
+    @GetMapping
+    public CartList cartList(HttpSession session){
+        CartList cartList=(CartList) session.getAttribute("cartList");
+        if(cartList!=null){
+            return cartList;
+        }
+        return null;
     }
 }
