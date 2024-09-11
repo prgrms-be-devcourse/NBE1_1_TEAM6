@@ -72,4 +72,9 @@ public class ProductService {
 		List<Product> products = productRepository.findByPriceBetween(minPrice, maxPrice);
 		return products.stream().map(ProductDTO::from).toList();
 	}
+
+	public List<ProductDTO> getNonSoldoutProducts() {
+		List<Product> products = productRepository.findNonSoldOut();
+		return products.stream().map(ProductDTO::from).toList();
+	}
 }

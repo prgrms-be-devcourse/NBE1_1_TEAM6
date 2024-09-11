@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import programmers.coffee.product.domain.Product;
 import programmers.coffee.product.dto.NewProductDTO;
 import programmers.coffee.product.dto.ProductDTO;
 import programmers.coffee.product.service.ProductService;
@@ -77,6 +78,13 @@ public class ProductController {
 		if (minPrice > maxPrice) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		List<ProductDTO> products = productService.searchByPrice(minPrice, maxPrice);
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	//품절된 상품 제외하고 조회
+	@GetMapping()
+	public ResponseEntity<?> getNonSoldoutProducts() {
+		List<ProductDTO> products = productService.getNonSoldoutProducts();
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 }
