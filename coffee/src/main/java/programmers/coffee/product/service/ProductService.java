@@ -67,4 +67,9 @@ public class ProductService {
 		List<Product> products = productRepository.findByProductNameContaining(productName);
 		return products.stream().map(ProductDTO::from).toList();
     }
+
+	public List<ProductDTO> searchByPrice(Long minPrice, Long maxPrice) {
+		List<Product> products = productRepository.findByPriceBetween(minPrice, maxPrice);
+		return products.stream().map(ProductDTO::from).toList();
+	}
 }

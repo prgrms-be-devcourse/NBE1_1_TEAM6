@@ -64,9 +64,19 @@ public class ProductController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping
+	//상품 이름으로 검색
+	@GetMapping("/search/name")
 	public ResponseEntity<?> searchByProductName(@RequestParam String productName) {
 		List<ProductDTO> products = productService.searchByProductName(productName);
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	//가격으로 검색
+	@GetMapping("/search/price")
+	public ResponseEntity<?> searchByPrice(@RequestParam Long minPrice, @RequestParam Long maxPrice) {
+		if (minPrice > maxPrice) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		List<ProductDTO> products = productService.searchByPrice(minPrice, maxPrice);
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 }
