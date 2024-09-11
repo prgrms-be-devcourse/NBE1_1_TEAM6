@@ -60,10 +60,6 @@ public class CartController {
 
     @GetMapping
     public CartList cartList(HttpSession session){
-        CartList cartList=(CartList) session.getAttribute("cartList");
-        if(cartList!=null){
-            return cartList;
-        }
-        return null;
+        return (CartList) session.getAttribute("cartList");
     }
 }
