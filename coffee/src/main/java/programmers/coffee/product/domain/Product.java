@@ -60,6 +60,7 @@ public class Product {
 		return Product.builder()
 			.productName(newProductDTO.getProductName())
 			.category(newProductDTO.getCategory())
+			.stock(newProductDTO.getStock())
 			.price(newProductDTO.getPrice())
 			.description(newProductDTO.getDescription())
 			.build();

@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import programmers.coffee.product.domain.Product;
 import programmers.coffee.product.dto.NewProductDTO;
 import programmers.coffee.product.dto.ProductDTO;
 import programmers.coffee.product.service.ProductService;
@@ -90,5 +92,28 @@ public class ProductController {
 	public ResponseEntity<?> deleteProduct(@PathVariable UUID productId) {
 		productService.deleteProduct(productId);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	//상품 이름으로 검색
+	@GetMapping("/search/name")
+	public ResponseEntity<?> searchByProductName(@RequestParam String productName) {
+		List<ProductDTO> products = productService.searchByProductName(productName);
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	//가격으로 검색
+	@GetMapping("/search/price")
+	public ResponseEntity<?> searchByPrice(@RequestParam Long minPrice, @RequestParam Long maxPrice) {
+		if (minPrice > maxPrice) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		List<ProductDTO> products = productService.searchByPrice(minPrice, maxPrice);
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	//품절된 상품 제외하고 조회
+	@GetMapping()
+	public ResponseEntity<?> getNonSoldoutProducts() {
+		List<ProductDTO> products = productService.getNonSoldoutProducts();
+		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 }
