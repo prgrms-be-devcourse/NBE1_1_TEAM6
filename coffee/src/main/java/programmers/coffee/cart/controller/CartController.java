@@ -17,34 +17,37 @@ public class CartController {
 
     @PostMapping
     public CartList addCart(@RequestBody CartDTO cart, HttpSession session){
-//        System.out.println(cart);
-
-        CartList cartList=(CartList) session.getAttribute("cartList");
+        CartList cartList=(CartList) session.getAttribute("cartList"); //세션에서 가져오기
 
         int totalPrice=cart.getPrice() * cart.getQuantity();
 
-        if(cartList==null){
+        if(cartList==null){ //세션에 값이 없으면 -> 새로 세션에 넣기
             List<CartDTO> newCart=new ArrayList<>();
             cart.setTotalPrice(totalPrice);
             newCart.add(cart);
             cartList=new CartList(newCart, totalPrice);
-        }else{
+        }else{ //세션에 값이 있으면
             List<CartDTO> prevCart=cartList.getCart();
             int prevCartTotal=cartList.getCartTotal();
             cartList.setCartTotal(prevCartTotal+totalPrice);
 
-            if(prevCart.contains(cart)){
-                int cartIndex=prevCart.indexOf(cart);
-                int quantity=cart.getQuantity();
+            boolean chk=false;
+            for(CartDTO cartTemp :prevCart){
+                if(cartTemp.getProductId()==cart.getProductId()){
+                    chk=true;
+                    int cartIndex=prevCart.indexOf(cartTemp);
+                    int quantity=cart.getQuantity();
 
-                CartDTO newCart=prevCart.get(cartIndex);
-                int newQuantity=newCart.getQuantity()+quantity;
-                int newTotal=newCart.getTotalPrice()+totalPrice;
+                    CartDTO newCart=prevCart.get(cartIndex);
+                    int newQuantity=newCart.getQuantity()+quantity;
+                    int newTotal=newCart.getTotalPrice()+totalPrice;
 
-                newCart.setQuantity(newQuantity);
-                newCart.setTotalPrice(newTotal);
-                prevCart.set(cartIndex,newCart);
-            }else{
+                    newCart.setQuantity(newQuantity);
+                    newCart.setTotalPrice(newTotal);
+                    prevCart.set(cartIndex,newCart);
+                }
+            }
+            if(!chk){
                 cart.setTotalPrice(totalPrice);
                 prevCart.add(cart);
             }
