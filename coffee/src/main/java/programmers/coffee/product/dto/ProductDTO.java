@@ -2,6 +2,8 @@ package programmers.coffee.product.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import programmers.coffee.constant.Category;
+import programmers.coffee.constant.ProductStatus;
 import programmers.coffee.product.domain.Product;
 
 @Data
@@ -12,7 +14,9 @@ public class ProductDTO {
 
 	private String productName;
 
-	private String category;
+	private Category category;
+
+	private ProductStatus productStatus;
 
 	private Long price;
 
@@ -22,8 +26,8 @@ public class ProductDTO {
 		return ProductDTO.builder()
 			.productId(product.getProductId())
 			.productName(product.getProductName())
-			// Enum 타입으로 바꾸는 작업 필요
-			// .category(product.getCategory())
+			.category(product.getCategory())
+			.productStatus(product.getProductStatus())
 			.price(product.getPrice())
 			.description(product.getDescription())
 			.build();
