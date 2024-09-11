@@ -2,6 +2,7 @@ package programmers.coffee.product.dto;
 
 import lombok.Data;
 import programmers.coffee.constant.Category;
+import programmers.coffee.constant.ProductStatus;
 
 @Data
 public class NewProductDTO {
@@ -9,4 +10,5 @@ public class NewProductDTO {
 	private Category category;
 	private Long price;
 	private String description;
+	private ProductStatus productStatus;
 }
