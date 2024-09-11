@@ -1,7 +1,5 @@
 package programmers.coffee.product.domain;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -34,14 +32,11 @@ public class Product {
 
 	private String productName;
 
-//	private Category category;
-	private String category;
+	private Category category;
 
 	private Integer stock;
 
-//	@Enumerated(EnumType.STRING)
-//	private ProductStatus productStatus;
-	private String productStatus;
+	private ProductStatus productStatus;
 
 	private Long price;
 
@@ -64,8 +59,8 @@ public class Product {
 	public static Product from(NewProductDTO newProductDTO) {
 		return Product.builder()
 			.productName(newProductDTO.getProductName())
-//			.category(newProductDTO.getCategory())
-				.category(newProductDTO.getCategory())
+			.category(newProductDTO.getCategory())
+			.stock(newProductDTO.getStock())
 			.price(newProductDTO.getPrice())
 			.description(newProductDTO.getDescription())
 			.build();
@@ -73,8 +68,7 @@ public class Product {
 
 	public void updateProduct(ProductDTO productDTO) {
 		this.productName = productDTO.getProductName();
-		// Enum 타입으로 변경하는 작업 필요
-		// this.category = productDTO.getCategory();
+
 		this.price = productDTO.getPrice();
 		this.description = productDTO.getDescription();
 	}

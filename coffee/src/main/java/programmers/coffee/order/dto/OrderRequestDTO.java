@@ -1,7 +1,7 @@
 package programmers.coffee.order.dto;
 
 import java.util.Map;
-import java.util.UUID;
+
 import lombok.Data;
 
 @Data

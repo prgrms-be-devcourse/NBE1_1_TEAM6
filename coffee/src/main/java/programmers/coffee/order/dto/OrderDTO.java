@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Data;
+import programmers.coffee.constant.OrderStatus;
 import programmers.coffee.order.domain.Order;
 
 @Data
@@ -16,7 +17,7 @@ public class OrderDTO {
 	private String email;
 	private String address;
 	private String postCode;
-	private String orderStatus;
+	private OrderStatus orderStatus;
 	private List<OrderItemDTO> orderItems = new ArrayList<>();
 
 	public static OrderDTO from(Order order) {

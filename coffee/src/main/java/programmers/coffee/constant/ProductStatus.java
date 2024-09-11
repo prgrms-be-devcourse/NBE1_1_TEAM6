@@ -1,5 +1,8 @@
 package programmers.coffee.constant;
 
 public enum ProductStatus {
-    출고준비중;
+	SALE,
+	NOT_FOR_SALE,
+	SOLD_OUT,
+	READY_FOR_SALE
 }

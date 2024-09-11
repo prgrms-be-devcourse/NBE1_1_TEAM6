@@ -40,15 +40,11 @@ public class OrderService {
 		Order order = Order.from(orderRequestDTO);
 		Map<Long, Integer> orderItemDTOs = orderRequestDTO.getOrderItems();
 		Set<Long> productIds = orderItemDTOs.keySet();
-		System.out.println("productIds" + productIds);
 
-		System.out.println("---------------");
-		List<Product> products = productRepository.findAllByProductIdIn(productIds);
-		System.out.println(products.size());
+		List<Product> products = productRepository.findAllById(productIds);
 
 		List<OrderItem> orderItems = new ArrayList<>();
 		for (Product product : products) {
-			System.out.println(product);
 			Integer quantity = orderItemDTOs.get(product.getProductId());
 			OrderItem orderItem = OrderItem.of(product, quantity, order);
 			orderItems.add(orderItem);
