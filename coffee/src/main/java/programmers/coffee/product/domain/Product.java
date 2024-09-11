@@ -60,15 +60,15 @@ public class Product {
 		return Product.builder()
 			.productName(newProductDTO.getProductName())
 			.category(newProductDTO.getCategory())
+			.stock(newProductDTO.getStock())
 			.price(newProductDTO.getPrice())
 			.description(newProductDTO.getDescription())
-			.productStatus(newProductDTO.getProductStatus())
 			.build();
 	}
 
 	public void updateProduct(ProductDTO productDTO) {
 		this.productName = productDTO.getProductName();
-		this.category = productDTO.getCategory();
+
 		this.price = productDTO.getPrice();
 		this.description = productDTO.getDescription();
 	}

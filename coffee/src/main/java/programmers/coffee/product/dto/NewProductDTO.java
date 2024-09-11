@@ -10,5 +10,6 @@ public class NewProductDTO {
 	private Category category;
 	private Long price;
 	private String description;
+	private Integer stock;
 	private ProductStatus productStatus;
 }
