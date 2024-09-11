@@ -10,5 +10,5 @@ public class OrderRequestDTO {
 	private String email;
 	private String address;
 	private String postCode;
-	private Map<UUID, Integer> orderItems;
+	private Map<Long, Integer> orderItems;
 }

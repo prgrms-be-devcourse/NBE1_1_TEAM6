@@ -6,7 +6,8 @@ import programmers.coffee.constant.Category;
 @Data
 public class NewProductDTO {
 	private String productName;
-	private Category category;
+//	private Category category;
+	private String category;
 	private Long price;
 	private String description;
 }

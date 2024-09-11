@@ -40,7 +40,7 @@ public class ProductController {
 	}
 
 	@PutMapping("/product/{productId}")
-	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable UUID productId) {
+	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable Long productId) {
 		log.info("===[ProductController.updateProduct] Start ===");
 
 		log.info("===[ProductService.update] Start ===");
@@ -65,7 +65,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/product/{productId}")
-	public ResponseEntity<?> deleteProduct(@PathVariable UUID productId) {
+	public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
 		productService.deleteProduct(productId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
