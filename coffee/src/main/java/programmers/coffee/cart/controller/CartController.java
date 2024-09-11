@@ -46,6 +46,7 @@ public class CartController {
                     newCart.setQuantity(newQuantity);
                     newCart.setTotalPrice(newTotal);
                     prevCart.set(cartIndex,newCart);
+                    break;
                 }
             }
             if(!chk){
@@ -69,5 +70,36 @@ public class CartController {
         session.removeAttribute("cartList");
     }
 
+    @DeleteMapping
+    public CartList deleteOneCart(HttpSession session, @RequestBody CartDTO cartDTO){
+        CartList cartList =(CartList) session.getAttribute("cartList");
 
+        long productId=cartDTO.getProductId();
+
+        if(cartList==null){
+            return null;
+        }
+
+        int cartTotal=cartList.getCartTotal();
+        List<CartDTO>cart=cartList.getCart();
+
+        int removeCartPrice=0;
+
+        for(CartDTO cartTemp:cart){
+            if(cartTemp.getProductId()==productId){
+                removeCartPrice=cartTemp.getTotalPrice();
+                cart.remove(cartTemp);
+                break;
+            }
+        }
+
+        if(cart.isEmpty()){
+            session.removeAttribute("cartList");
+            return null;
+        }
+
+        cartTotal-=removeCartPrice;
+        cartList.setCartTotal(cartTotal);
+        return cartList;
+    }
 }
