@@ -4,13 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,12 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import programmers.coffee.product.domain.Product;
+import programmers.coffee.constant.Category;
+import programmers.coffee.constant.ProductStatus;
 import programmers.coffee.product.dto.NewProductDTO;
 import programmers.coffee.product.dto.ProductDTO;
 import programmers.coffee.product.service.ProductService;
@@ -33,10 +33,17 @@ import programmers.coffee.product.service.ProductService;
 @Slf4j
 public class ProductController {
 
-	@Value("${file.dir}")
-	private String fileDir;
-
 	private final ProductService productService;
+
+
+	@GetMapping("/product/new")
+	public ModelAndView newProduct(ModelAndView mav) {
+		mav.addObject("newProduct", new NewProductDTO());
+		mav.addObject("category", Category.values());
+		mav.addObject("productStatus", ProductStatus.values());
+		mav.setViewName("new-product");
+		return mav;
+	}
 
 	@PostMapping("/product")
 	public ResponseEntity<ProductDTO> saveProduct(@ModelAttribute NewProductDTO newProductDTO, @ModelAttribute MultipartFile file) throws
@@ -49,18 +56,17 @@ public class ProductController {
 
 		log.info("ProductDTO : {}", responseDTO);
 
-		
-		// 파일 저장 로직
-		if (!file.isEmpty()) {
-			/**
-			 * 실제로는 외부 서버에 저장해야 한다.
-			 */
-			String absolutePath = Paths.get("").toAbsolutePath().toString();
-			String resource = absolutePath + "/" + fileDir + responseDTO.getProductId() + ".jpg";
-			log.info("Path = {}", resource);
-			file.transferTo(new File(resource));
+		/**
+		 * 파일 저장 로직
+		 * 실제로는 외부 서버에 저장해야 한다.
+		 */
+		if (file.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
+		String absolutePath = Paths.get("").toAbsolutePath().toString();
+		String resource = absolutePath + "/" + responseDTO.getImgFile();
+		log.info("Path = {}", resource);
+		file.transferTo(new File(resource));
 		log.info("===[ProductController.saveProduct] End ===");
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}

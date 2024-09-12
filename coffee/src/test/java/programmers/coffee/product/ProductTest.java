@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
+import programmers.coffee.constant.Category;
+import programmers.coffee.constant.ProductStatus;
 import programmers.coffee.product.domain.Product;
 import programmers.coffee.product.dto.NewProductDTO;
 import programmers.coffee.product.dto.ProductDTO;
@@ -31,7 +33,7 @@ public class ProductTest {
 	public void beforeEach() {
 		NewProductDTO productDTO = new NewProductDTO();
 		productDTO.setProductName("Test Coffee Bean");
-		productDTO.setCategory("Coffee Bean");
+		productDTO.setCategory(Category.COFFEE_BEAN);
 		productDTO.setDescription("This is Test Coffee Bean");
 		productDTO.setPrice(10000L);
 		initProduct = Product.from(productDTO);
@@ -54,7 +56,7 @@ public class ProductTest {
 		ProductDTO update = ProductDTO.builder()
 			.productId(initProduct.getProductId())
 			.productName("Updated Test Coffee Bean")
-			.category("Updated Coffee Bean")
+			.category(Category.COFFEE_BEAN)
 			.price(9990L)
 			.description("Updated Test Coffee Bean.")
 			.build();
@@ -66,7 +68,7 @@ public class ProductTest {
 			.orElseThrow(() -> new NoSuchElementException("저장되지 않음"));
 
 		assertThat(updated.getProductName()).isEqualTo("Updated Test Coffee Bean");
-		assertThat(updated.getCategory()).isEqualTo("Updated Coffee Bean");
+		assertThat(updated.getCategory()).isEqualTo(Category.COFFEE_BEAN);
 		assertThat(updated.getPrice()).isEqualTo(9990L);
 		assertThat(updated.getDescription()).isEqualTo("Updated Test Coffee Bean.");
 	}
@@ -77,6 +79,6 @@ public class ProductTest {
 		initProduct.deleteProduct();
 		em.flush();
 
-		assertThat(initProduct.getCategory()).isEqualTo("판매중지");
+		assertThat(initProduct.getProductStatus()).isEqualTo(ProductStatus.NOT_FOR_SALE);
 	}
 }

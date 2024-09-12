@@ -75,8 +75,7 @@ public class Product {
 	}
 
 	public void deleteProduct() {
-		// this.category = "판매중지";
-		// ProductStatus 변경
+		this.productStatus = ProductStatus.NOT_FOR_SALE;
 	}
 
 	public void outStock(Integer quantity) {
