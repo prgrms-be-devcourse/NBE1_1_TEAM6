@@ -1,6 +1,9 @@
 package programmers.coffee.order.controller;
 
+import jakarta.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import programmers.coffee.cart.model.DTO.CartDTO;
+import programmers.coffee.cart.model.DTO.CartList;
 import programmers.coffee.order.dto.CreateOrderResponseDTO;
 import programmers.coffee.order.dto.OrderDTO;
 import programmers.coffee.order.dto.OrderRequestDTO;
@@ -30,17 +35,32 @@ public class OrderController {
 	private final OrderService orderService;
 
 	@PostMapping("/order")
-	public ResponseEntity<?> order(@RequestBody OrderRequestDTO requestDTO) {
+	public ResponseEntity<?> order(@RequestBody OrderRequestDTO requestDTO, HttpSession session) {
 		log.info("=== [OrderController.order] Start ===");
 
+		CartList cartList=(CartList) session.getAttribute("cartList");
+		System.out.println(cartList);
+
 		log.info("=== [OrderService.order] Start ===");
+
+		Map<Long, Integer> orderItems=new HashMap<>();
+		for(CartDTO cart:cartList.getCart()){
+			orderItems.put(cart.getProductId(), cart.getQuantity());
+		}
+		System.out.println(orderItems);
+		requestDTO.setOrderItems(orderItems);
+		System.out.println(requestDTO.getOrderItems());
+
 		CreateOrderResponseDTO responseDTO = orderService.order(requestDTO);
+		System.out.println(responseDTO);
 		log.info("=== [OrderService.order] End ===");
 
 		log.info("Status : {}", responseDTO.getStatus());
 		log.info("=== [OrderController.order] End ===");
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
+
+
 
 	@GetMapping("/order/{email}")
 	public ResponseEntity<?> getOrder(@PathVariable String email) {

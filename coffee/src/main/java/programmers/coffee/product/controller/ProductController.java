@@ -40,7 +40,7 @@ public class ProductController {
 
 	@PostMapping("/product")
 	public ResponseEntity<ProductDTO> saveProduct(@ModelAttribute NewProductDTO newProductDTO, @ModelAttribute MultipartFile file) throws
-		IOException {
+			IOException {
 		log.info("===[ProductController.saveProduct] Start ===");
 
 		log.info("===[ProductService.save] Start ===");
@@ -49,6 +49,7 @@ public class ProductController {
 
 		log.info("ProductDTO : {}", responseDTO);
 
+		
 		// 파일 저장 로직
 		if (!file.isEmpty()) {
 			/**
