@@ -35,15 +35,6 @@ public class ProductController {
 
 	private final ProductService productService;
 
-	@GetMapping("/product/new")
-	public ModelAndView newProduct(ModelAndView mav) {
-		mav.addObject("newProduct", new NewProductDTO());
-		mav.addObject("category", Category.values());
-		mav.addObject("productStatus", ProductStatus.values());
-		mav.setViewName("new-product");
-		return mav;
-	}
-
 	@PostMapping("/product")
 	public ResponseEntity<ProductDTO> saveProduct(@ModelAttribute NewProductDTO newProductDTO, @ModelAttribute MultipartFile file) throws
 			IOException {
