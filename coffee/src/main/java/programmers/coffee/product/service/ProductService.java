@@ -2,7 +2,6 @@ package programmers.coffee.product.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class ProductService {
 	}
 
 	@Transactional
-	public ProductDTO update(ProductDTO productDTO, UUID productId) {
+	public ProductDTO update(ProductDTO productDTO, Long productId) {
 		Product original = productRepository.findById(productId)
 			.orElseThrow(() -> new NoSuchElementException("존재하는 상품이 없습니다."));
 
@@ -57,7 +56,7 @@ public class ProductService {
 	 * 카테고리를 변경
 	 */
 	@Transactional
-	public void deleteProduct(UUID productId) {
+	public void deleteProduct(Long productId) {
 		Product product = productRepository.findById(productId)
 			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 제품입니다."));
 		product.deleteProduct();

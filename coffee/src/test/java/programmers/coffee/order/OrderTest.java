@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
+import programmers.coffee.constant.Category;
 import programmers.coffee.order.domain.Order;
 import programmers.coffee.order.domain.OrderItem;
 import programmers.coffee.order.dto.OrderRequestDTO;
@@ -42,7 +43,7 @@ public class OrderTest {
 	public void beforeEach() {
 		NewProductDTO productDTO = new NewProductDTO();
 		productDTO.setProductName("Test Coffee Bean");
-		productDTO.setCategory("Coffee Bean");
+		productDTO.setCategory(Category.COFFEE_BEAN);
 		productDTO.setDescription("This is Test Coffee Bean");
 		productDTO.setPrice(10000L);
 		product = Product.from(productDTO);
@@ -53,7 +54,7 @@ public class OrderTest {
 		orderRequestDTO.setEmail("hgh1472@naver.com");
 		orderRequestDTO.setPostCode("11111");
 		orderRequestDTO.setAddress("Seoul");
-		HashMap<UUID, Integer> orderItemDto = new HashMap<>();
+		HashMap<Long, Integer> orderItemDto = new HashMap<>();
 		orderItemDto.put(product.getProductId(), 5);
 		orderRequestDTO.setOrderItems(orderItemDto);
 
