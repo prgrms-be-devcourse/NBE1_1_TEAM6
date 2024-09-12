@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import programmers.coffee.constant.OrderStatus;
 import programmers.coffee.order.dto.OrderRequestDTO;
 
 /**
@@ -39,7 +40,7 @@ public class Order {
 	private String email;
 	private String address;
 	private String postCode;
-	private String orderStatus;
+	private OrderStatus orderStatus;
 	private LocalDateTime createdAt;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
@@ -52,11 +53,10 @@ public class Order {
 		this.createdAt = LocalDateTime.now();
 		LocalDateTime today2PM = LocalDateTime.of(createdAt.toLocalDate(), LocalTime.of(14, 0));
 
-		// OrderStatus ENum으로 바꾸세요
 		if (createdAt.isBefore(today2PM)) {
-			this.orderStatus = "당일배송";
+			this.orderStatus = OrderStatus.TODAY_DELIVERY;
 		} else {
-			this.orderStatus = "출고준비중";
+			this.orderStatus = OrderStatus.PENDING_DELIVERY;
 		}
 	}
 

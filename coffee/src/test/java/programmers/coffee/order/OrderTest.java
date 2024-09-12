@@ -53,7 +53,7 @@ public class OrderTest {
 		orderRequestDTO.setAddress("Seoul");
 		HashMap<UUID, Integer> orderItemDto = new HashMap<>();
 		//orderItemDto.put(product.getProductId(), 5);
-		orderRequestDTO.setOrderItems(orderItemDto);
+		//orderRequestDTO.setOrderItems(orderItemDto);
 
 		orderId = orderService.order(orderRequestDTO).getOrderId();
 	}

@@ -36,8 +36,8 @@ public class OrderService {
 
 	public CreateOrderResponseDTO order(OrderRequestDTO orderRequestDTO) {
 		Order order = Order.from(orderRequestDTO);
-		Map<UUID, Integer> orderItemDTOs = orderRequestDTO.getOrderItems();
-		Set<UUID> productIds = orderItemDTOs.keySet();
+		Map<Long, Integer> orderItemDTOs = orderRequestDTO.getOrderItems();
+		Set<Long> productIds = orderItemDTOs.keySet();
 
 		List<Product> products = productRepository.findAllById(productIds);
 
