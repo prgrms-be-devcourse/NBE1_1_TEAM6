@@ -38,7 +38,7 @@
 <br><br>
 # API 문서
 
-[API 문서](https://www.notion.so/1d16411b731c49309eb7503e2dd194bb?pvs=21)
+[API 문서](https://www.notion.so/0ff35660b4738030b112d977ad247cbf?pvs=21)
 
 <br>
 
