@@ -35,7 +35,6 @@ public class ProductController {
 
 	private final ProductService productService;
 
-
 	@GetMapping("/product/new")
 	public ModelAndView newProduct(ModelAndView mav) {
 		mav.addObject("newProduct", new NewProductDTO());
@@ -48,39 +47,19 @@ public class ProductController {
 	@PostMapping("/product")
 	public ResponseEntity<ProductDTO> saveProduct(@ModelAttribute NewProductDTO newProductDTO, @ModelAttribute MultipartFile file) throws
 			IOException {
-		log.info("===[ProductController.saveProduct] Start ===");
+		ProductDTO responseDTO = productService.save(newProductDTO, file);
 
-		log.info("===[ProductService.save] Start ===");
-		ProductDTO responseDTO = productService.save(newProductDTO);
-		log.info("===[ProductService.save] End ===");
-
-		log.info("ProductDTO : {}", responseDTO);
-
-		/**
-		 * 파일 저장 로직
-		 * 실제로는 외부 서버에 저장해야 한다.
-		 */
 		if (file.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		String absolutePath = Paths.get("").toAbsolutePath().toString();
-		String resource = absolutePath + "/" + responseDTO.getImgFile();
-		log.info("Path = {}", resource);
-		file.transferTo(new File(resource));
-		log.info("===[ProductController.saveProduct] End ===");
+
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
 
 	@PutMapping("/product/{productId}")
-	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable Long productId) {
-		log.info("===[ProductController.updateProduct] Start ===");
-
-		log.info("===[ProductService.update] Start ===");
-
-		ProductDTO updated = productService.update(productDTO, productId);
-		log.info("===[ProductService.update] End ===");
-
-		log.info("Updated : {}", updated);
+	public ResponseEntity<ProductDTO> updateProduct(@ModelAttribute NewProductDTO productDTO, @ModelAttribute MultipartFile file, @PathVariable Long productId) throws
+			IOException {
+		ProductDTO updated = productService.update(productDTO, file, productId);
 
 		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
@@ -88,12 +67,8 @@ public class ProductController {
 	//전체 상품 조회
 	@GetMapping("/product")
 	public ResponseEntity<Page<ProductDTO>> getProducts(@RequestParam(value="page", defaultValue="0") int page) {
-		log.info("=== [ProductController.getProducts] Start ===");
-		log.info("=== [ProductService.getProducts] Start ===");
 		Page<ProductDTO> products = productService.getProducts(page);
-		log.info("=== [ProductService.getProducts] End ===");
 		log.info("Products : {}", products);
-		log.info("=== [ProductController.getProducts] End ===");
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
@@ -119,8 +94,8 @@ public class ProductController {
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
-	//품절된 상품 제외하고 조회
-	@GetMapping("/search/nonsoldout")
+	//판매 중인 상품만 조회
+	@GetMapping("/search/sale")
 	public ResponseEntity<?> getNonSoldoutProducts() {
 		List<ProductDTO> products = productService.getNonSoldoutProducts();
 		return new ResponseEntity<>(products, HttpStatus.OK);

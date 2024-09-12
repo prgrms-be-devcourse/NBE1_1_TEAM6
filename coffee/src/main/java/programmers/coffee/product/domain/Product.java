@@ -17,7 +17,6 @@ import lombok.ToString;
 import programmers.coffee.constant.Category;
 import programmers.coffee.constant.ProductStatus;
 import programmers.coffee.product.dto.NewProductDTO;
-import programmers.coffee.product.dto.ProductDTO;
 
 @Entity
 @Builder
@@ -58,20 +57,22 @@ public class Product {
 
 	public static Product from(NewProductDTO newProductDTO) {
 		return Product.builder()
-			.productName(newProductDTO.getProductName())
-			.category(newProductDTO.getCategory())
-			.stock(newProductDTO.getStock())
-			.price(newProductDTO.getPrice())
-			.description(newProductDTO.getDescription())
-			.build();
+				.productName(newProductDTO.getProductName())
+				.category(newProductDTO.getCategory())
+				.stock(newProductDTO.getStock())
+				.price(newProductDTO.getPrice())
+				.description(newProductDTO.getDescription())
+				.productStatus(newProductDTO.getProductStatus())
+				.build();
 	}
 
-	public void updateProduct(ProductDTO productDTO) {
+	public void updateProduct(NewProductDTO productDTO) {
 		this.productName = productDTO.getProductName();
-
+		this.category = productDTO.getCategory();
 		this.price = productDTO.getPrice();
 		this.description = productDTO.getDescription();
-		this.stock += productDTO.getStock();
+		this.stock = productDTO.getStock();
+		this.productStatus = productDTO.getProductStatus();
 	}
 
 	public void deleteProduct() {

@@ -36,12 +36,8 @@ public class OrderController {
 
 	@PostMapping("/order")
 	public ResponseEntity<?> order(@RequestBody OrderRequestDTO requestDTO, HttpSession session) {
-		log.info("=== [OrderController.order] Start ===");
-
 		CartList cartList=(CartList) session.getAttribute("cartList");
 		System.out.println(cartList);
-
-		log.info("=== [OrderService.order] Start ===");
 
 		Map<Long, Integer> orderItems=new HashMap<>();
 		for(CartDTO cart:cartList.getCart()){
@@ -52,11 +48,12 @@ public class OrderController {
 		System.out.println(requestDTO.getOrderItems());
 
 		CreateOrderResponseDTO responseDTO = orderService.order(requestDTO);
+		if(responseDTO==null){
+			return ResponseEntity.badRequest().body("재고 부족");
+		}
 		System.out.println(responseDTO);
-		log.info("=== [OrderService.order] End ===");
 
 		log.info("Status : {}", responseDTO.getStatus());
-		log.info("=== [OrderController.order] End ===");
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
 

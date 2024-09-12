@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByPriceBetween(Long minPrice, Long maxPrice);
 
-    @Query("SELECT p FROM Product p WHERE p.stock != 0")
+    @Query("SELECT p FROM Product p WHERE p.productStatus = 0")
     List<Product> findNonSoldOut();
     List<Product> findAllByProductIdIn(Set<Long> productIds);
     Page<Product> findAll(Pageable pageable);

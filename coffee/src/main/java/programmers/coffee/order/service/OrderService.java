@@ -45,6 +45,11 @@ public class OrderService {
 		for (Product product : products) {
 			Integer quantity = orderItemDTOs.get(product.getProductId());
 			OrderItem orderItem = OrderItem.of(product, quantity, order);
+			//주문에서 Stck의 재고보다 많이 주문할 경우 예외 발생
+			if(product.getStock() - quantity < 0) {
+				return null;
+//				throw new IllegalArgumentException("재고가 부족합니다.");
+			}
 			orderItems.add(orderItem);
 			// 재고에서 주문 수량 빼주기
 			product.outStock(quantity);
