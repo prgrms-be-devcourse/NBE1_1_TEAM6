@@ -49,6 +49,7 @@ public class ProductController {
 
 		log.info("ProductDTO : {}", responseDTO);
 
+		
 		// 파일 저장 로직
 		if (!file.isEmpty()) {
 			/**
