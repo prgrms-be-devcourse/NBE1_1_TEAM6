@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +65,7 @@ public class ProductController {
 	}
 
 	@PutMapping("/product/{productId}")
-	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable UUID productId) {
+	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable Long productId) {
 		log.info("===[ProductController.updateProduct] Start ===");
 
 		log.info("===[ProductService.update] Start ===");
@@ -77,11 +78,12 @@ public class ProductController {
 		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
 
+	//전체 상품 조회
 	@GetMapping("/product")
-	public ResponseEntity<List<ProductDTO>> getProducts() {
+	public ResponseEntity<Page<ProductDTO>> getProducts(@RequestParam(value="page", defaultValue="0") int page) {
 		log.info("=== [ProductController.getProducts] Start ===");
 		log.info("=== [ProductService.getProducts] Start ===");
-		List<ProductDTO> products = productService.getProducts();
+		Page<ProductDTO> products = productService.getProducts(page);
 		log.info("=== [ProductService.getProducts] End ===");
 		log.info("Products : {}", products);
 		log.info("=== [ProductController.getProducts] End ===");
@@ -89,7 +91,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/product/{productId}")
-	public ResponseEntity<?> deleteProduct(@PathVariable UUID productId) {
+	public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
 		productService.deleteProduct(productId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -111,7 +113,7 @@ public class ProductController {
 	}
 
 	//품절된 상품 제외하고 조회
-	@GetMapping()
+	@GetMapping("/search/nonsoldout")
 	public ResponseEntity<?> getNonSoldoutProducts() {
 		List<ProductDTO> products = productService.getNonSoldoutProducts();
 		return new ResponseEntity<>(products, HttpStatus.OK);
