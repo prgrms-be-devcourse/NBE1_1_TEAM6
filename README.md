@@ -67,11 +67,11 @@
 
 | 이름 | Github | 기능 |
 | --- | --- | --- |
-| 김가현 | kahyunn_0255 | 카트 |
-| 김연수 | yeonsu00 | 페이징, 상품 검색 |
-| 반길현 | ban-gilhyeon | 주문 취소 |
-| 장준우 | highjjjw |  |
-| 황건하 | hgh1472 | 상품 이미지 관리 |
+| 김가현 | [kahyunn_0255](https://github.com/kahyunn_0255) | 카트 |
+| 김연수 | [yeonsu00](https://github.com/yeonsu00) | 페이징, 상품 검색 |
+| 반길현 | [ban-gilhyeon](https://github.com/Ban-gilhyeon) | 주문 취소 |
+| 장준우 | [highjjjw](https://github.com/highjjjw) |  |
+| 황건하 | [hgh1472](https://github.com/hgh1472) | 상품 이미지 관리 |
 
 <br><br>
 
