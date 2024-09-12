@@ -36,9 +36,10 @@ public class ProductController {
 	private String fileDir;
 
 	private final ProductService productService;
-	
+
 	@PostMapping("/product")
-	public ResponseEntity<ProductDTO> saveProduct(@RequestBody NewProductDTO newProductDTO) {
+	public ResponseEntity<ProductDTO> saveProduct(@ModelAttribute NewProductDTO newProductDTO, @ModelAttribute MultipartFile file) throws
+			IOException {
 		log.info("===[ProductController.saveProduct] Start ===");
 
 		log.info("===[ProductService.save] Start ===");
@@ -46,6 +47,18 @@ public class ProductController {
 		log.info("===[ProductService.save] End ===");
 
 		log.info("ProductDTO : {}", responseDTO);
+
+		// 파일 저장 로직
+		if (!file.isEmpty()) {
+			/**
+			 * 실제로는 외부 서버에 저장해야 한다.
+			 */
+			String absolutePath = Paths.get("").toAbsolutePath().toString();
+			String resource = absolutePath + "/" + fileDir + responseDTO.getProductId() + ".jpg";
+			log.info("Path = {}", resource);
+			file.transferTo(new File(resource));
+		}
+
 		log.info("===[ProductController.saveProduct] End ===");
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
