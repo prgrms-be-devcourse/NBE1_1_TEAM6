@@ -73,4 +73,11 @@ public class OrderTest {
 		OrderItem orderItem = order.getOrderItems().get(0);
 		assertThat(orderItem.getProduct()).isEqualTo(product);
 	}
+
+
+  @Test
+	@Transactional
+	public void 주문_취소(){
+
+	}
 }

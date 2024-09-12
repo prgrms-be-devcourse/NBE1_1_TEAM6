@@ -71,9 +71,18 @@ public class Product {
 
 		this.price = productDTO.getPrice();
 		this.description = productDTO.getDescription();
+		this.stock += productDTO.getStock();
 	}
 
 	public void deleteProduct() {
 		this.productStatus = ProductStatus.NOT_FOR_SALE;
+	}
+
+	public void outStock(Integer quantity) {
+		this.stock -= quantity;
+	}
+
+	public void backStock(Integer quantity) {
+		this.stock += quantity;
 	}
 }

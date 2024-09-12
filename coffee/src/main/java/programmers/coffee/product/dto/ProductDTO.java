@@ -28,6 +28,8 @@ public class ProductDTO {
 
 	private String imgFile;
 
+	private Integer stock;
+
 	public static ProductDTO from(Product product) {
 		return ProductDTO.builder()
 			.productId(product.getProductId())
@@ -37,6 +39,7 @@ public class ProductDTO {
 			.price(product.getPrice())
 			.description(product.getDescription())
 			.imgFile(IMG_DIR + product.getProductId() + ".jpg")
+			.stock(product.getStock())
 			.build();
 	}
 }

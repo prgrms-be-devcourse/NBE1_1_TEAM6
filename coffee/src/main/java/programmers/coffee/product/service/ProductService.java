@@ -1,8 +1,12 @@
 package programmers.coffee.product.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,14 +45,12 @@ public class ProductService {
 		return updated;
 	}
 
-	public List<ProductDTO> getProducts() {
-
-		// findAll 인자에 생성일자순 정렬 옵션 적용
-
-		List<Product> findAll = productRepository.findAll(Sort.by(Sort.Direction.ASC, "createdAt"));
-		return findAll.stream()
-			.map(ProductDTO::from)
-			.toList();
+	public Page<ProductDTO> getProducts(int page) {
+		// 한 페이지에 제품 10개로 지정
+		// 생성일자순 정렬 옵션 적용
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").ascending());
+		Page<Product> findAll = productRepository.findAll(pageable);
+		return findAll.map(ProductDTO::from);
 	}
 
 	/**

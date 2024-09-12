@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,7 +47,7 @@ public class ProductController {
 
 	@PostMapping("/product")
 	public ResponseEntity<ProductDTO> saveProduct(@ModelAttribute NewProductDTO newProductDTO, @ModelAttribute MultipartFile file) throws
-		IOException {
+			IOException {
 		log.info("===[ProductController.saveProduct] Start ===");
 
 		log.info("===[ProductService.save] Start ===");
@@ -84,11 +85,12 @@ public class ProductController {
 		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
 
+	//전체 상품 조회
 	@GetMapping("/product")
-	public ResponseEntity<List<ProductDTO>> getProducts() {
+	public ResponseEntity<Page<ProductDTO>> getProducts(@RequestParam(value="page", defaultValue="0") int page) {
 		log.info("=== [ProductController.getProducts] Start ===");
 		log.info("=== [ProductService.getProducts] Start ===");
-		List<ProductDTO> products = productService.getProducts();
+		Page<ProductDTO> products = productService.getProducts(page);
 		log.info("=== [ProductService.getProducts] End ===");
 		log.info("Products : {}", products);
 		log.info("=== [ProductController.getProducts] End ===");
@@ -118,7 +120,7 @@ public class ProductController {
 	}
 
 	//품절된 상품 제외하고 조회
-	@GetMapping()
+	@GetMapping("/search/nonsoldout")
 	public ResponseEntity<?> getNonSoldoutProducts() {
 		List<ProductDTO> products = productService.getNonSoldoutProducts();
 		return new ResponseEntity<>(products, HttpStatus.OK);
