@@ -71,10 +71,19 @@ public class Product {
 		this.category = productDTO.getCategory();
 		this.price = productDTO.getPrice();
 		this.description = productDTO.getDescription();
+		this.stock += productDTO.getStock();
 	}
 
 	public void deleteProduct() {
 		// this.category = "판매중지";
 		// ProductStatus 변경
+	}
+
+	public void outStock(Integer quantity) {
+		this.stock -= quantity;
+	}
+
+	public void backStock(Integer quantity) {
+		this.stock += quantity;
 	}
 }
