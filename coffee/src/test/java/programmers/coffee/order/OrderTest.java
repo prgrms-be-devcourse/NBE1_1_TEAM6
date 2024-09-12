@@ -2,9 +2,7 @@ package programmers.coffee.order;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.HashMap;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +40,7 @@ public class OrderTest {
 	public void beforeEach() {
 		NewProductDTO productDTO = new NewProductDTO();
 		productDTO.setProductName("Test Coffee Bean");
-		productDTO.setCategory("Coffee Bean");
+		//productDTO.setCategory("Coffee Bean");
 		productDTO.setDescription("This is Test Coffee Bean");
 		productDTO.setPrice(10000L);
 		product = Product.from(productDTO);
@@ -54,8 +52,8 @@ public class OrderTest {
 		orderRequestDTO.setPostCode("11111");
 		orderRequestDTO.setAddress("Seoul");
 		HashMap<UUID, Integer> orderItemDto = new HashMap<>();
-		orderItemDto.put(product.getProductId(), 5);
-		orderRequestDTO.setOrderItems(orderItemDto);
+		//orderItemDto.put(product.getProductId(), 5);
+		//orderRequestDTO.setOrderItems(orderItemDto);
 
 		orderId = orderService.order(orderRequestDTO).getOrderId();
 	}
@@ -71,5 +69,12 @@ public class OrderTest {
 
 		OrderItem orderItem = order.getOrderItems().get(0);
 		assertThat(orderItem.getProduct()).isEqualTo(product);
+	}
+
+
+  @Test
+	@Transactional
+	public void 주문_취소(){
+
 	}
 }

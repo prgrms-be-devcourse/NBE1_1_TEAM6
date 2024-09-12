@@ -1,11 +1,8 @@
 package programmers.coffee.order.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +16,7 @@ import programmers.coffee.order.dto.OrderRequestDTO;
 import programmers.coffee.order.repository.OrderItemRepository;
 import programmers.coffee.order.repository.OrderRepository;
 import programmers.coffee.product.domain.Product;
+import programmers.coffee.product.dto.ProductDTO;
 import programmers.coffee.product.repository.ProductRepository;
 
 @Service
@@ -48,6 +46,8 @@ public class OrderService {
 			Integer quantity = orderItemDTOs.get(product.getProductId());
 			OrderItem orderItem = OrderItem.of(product, quantity, order);
 			orderItems.add(orderItem);
+			// 재고에서 주문 수량 빼주기
+			product.outStock(quantity);
 			log.info("OrderItem : {}", orderItem);
 		}
 
@@ -65,8 +65,14 @@ public class OrderService {
 			.toList();
 	}
 
+	//삭제가 되면 orderId에 해당하는 product를 찾아서 quantity 추가 해야 함
+	@Transactional
 	public void cancelOrder(UUID orderId) {
+		Order order = orderRepository.findById(orderId).orElseThrow() ;
+		List<OrderItem> items = order.getOrderItems();
+		items.forEach(orderItem -> orderItem.getProduct().backStock(orderItem.getQuantity()));
 		orderRepository.deleteById(orderId);
+
 	}
 
 	public List<OrderDTO> getAllOrders() {
@@ -74,4 +80,6 @@ public class OrderService {
 			.map(OrderDTO::from)
 			.toList();
 	}
+
+	
 }
