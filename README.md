@@ -1,12 +1,12 @@
 # NBE1_1_TEAM6
 
 
-# 프로젝트 소개
+# 📄프로젝트 소개
 
 커피 메뉴를 주문할 수 있는 프로그램을 만든다. <br><br>
 
 
-# 명세서
+# ☀️명세서
 
 - 관리자가 상품을 추가할 수 있다.
     - 상품 이름, 카테고리, 가격, 설명, 재고, 상태, 이미지를 사용해 추가 할 수 있다.
@@ -36,13 +36,13 @@
 - 사용자가 이메일로 주문 내역을 검색할 수 있다.
 - 사용자가 주문을 삭제할 수 있다.
 <br><br>
-# API 문서
+# 🌎API 문서
 
 [API 문서](https://www.notion.so/0ff35660b4738030b112d977ad247cbf?pvs=21)
 
 <br>
 
-# ERD
+# ✨ERD
 <img width="860" alt="image" src="https://github.com/user-attachments/assets/cf69b55b-a63a-4517-a2d7-bbcbd89be08c">
 
 <br>
@@ -63,11 +63,11 @@
   
 <br>
 
-# 역할
+# 🏃‍♂️‍➡️역할
 
 | 이름 | Github | 기능 |
 | --- | --- | --- |
-| 김가현 | [kahyun0255](https://github.com/kahyun0255) | 카트 |
+| 김가현 | [kahyun0255](https://github.com/kahyun0255) | 장바구니 |
 | 김연수 | [yeonsu00](https://github.com/yeonsu00) | 페이징, 상품 검색 |
 | 반길현 | [ban-gilhyeon](https://github.com/Ban-gilhyeon) | 주문 취소 |
 | 장준우 | [highjjjw](https://github.com/highjjjw) |  |
@@ -75,14 +75,14 @@
 
 <br><br>
 
-# 사용 기능
+# ⛈️사용 기능
 
 - Spring Boot + Java
 - Mysql + JPA
 
 <br>
 
-# 규칙
+# ❄️규칙
 
 - https://velog.io/@chojs28/Git-커밋-메시지-규칙
 - [feature/기능]으로 브랜치 생성
